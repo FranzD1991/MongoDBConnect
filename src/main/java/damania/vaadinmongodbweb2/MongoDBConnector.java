@@ -10,6 +10,7 @@ package damania.vaadinmongodbweb2;
  * @author Franz Dahmann
  */
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.DBCollection;
@@ -59,4 +60,11 @@ public class MongoDBConnector {
         DBCursor curse = coll.find();
         return curse;
     }
+    public void insertNewDocumnet(DBObject dokument){
+        coll.insert(dokument);
+    }
+    public void updateDocument(DBObject query, DBObject update){
+        coll.update(query, update, false, false);
+    }
+            
 }
