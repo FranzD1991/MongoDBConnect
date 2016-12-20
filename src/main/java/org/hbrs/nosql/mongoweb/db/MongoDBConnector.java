@@ -84,7 +84,7 @@ public class MongoDBConnector {
         obj.add(new BasicDBObject("2_Pruefer",nequery));
         obj.add(new BasicDBObject("3_Pruefer",nequery));
         
-        BasicDBObject orquery = new BasicDBObject("",obj);
+        BasicDBObject orquery = new BasicDBObject("$or",obj);
         
         List answer = coll.distinct("1_Pruefer", orquery);
         return answer;

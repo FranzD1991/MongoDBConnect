@@ -46,12 +46,12 @@ public class UseCase2 extends VerticalLayout implements View
                                  {
                                      uc2.removeAllComponents();
                                      // load list with values
-                                     List uc1answer = mongo.getQuery2();
+                                     List uc2answer = mongo.getQuery2();
                                      // query over list
-                                     for ( int i = 0; i < uc1answer.size(); i++ )
+                                     for ( int i = 0; i < uc2answer.size(); i++ )
                                      {
                                          //create and post labels for list elements
-                                         uc2.addComponent( new Label( (String)uc1answer.get( i ) ) );
+                                         uc2.addComponent( new Label( (String)uc2answer.get( i ) ) );
                                      }
                                      addComponent( uc2 );
                                  } );
