@@ -1,9 +1,7 @@
 package org.hbrs.nosql.mongoweb.gui.components;
 
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.*;
 import org.hbrs.nosql.mongoweb.model.UseCase;
 
 /**
@@ -23,7 +21,9 @@ public class TopPanel extends HorizontalLayout
     
         for ( UseCase uc : UseCase.values() )
         {
-            //TODO
+            Button bt = new Button( uc.getName() );
+            bt.addClickListener( (Button.ClickListener)clickEvent -> UI.getCurrent().getNavigator().navigateTo( uc.name() ) );
+            this.addComponent( bt );
         }
     }
 }

@@ -26,9 +26,11 @@ public class MyUI extends UI {
     {
         Navigator navi = new Navigator( this, this );
     
-        navi.addView( UseCase.UC1.name(), UseCase.UC1.getView() );
-        navi.addView( UseCase.UC2.name(), UseCase.UC2.getView() );
-    
+        for ( UseCase uc : UseCase.values() )
+        {
+            navi.addView( uc.name(), uc.getView() );
+        }
+        
         UI.getCurrent().getNavigator().navigateTo( UseCase.UC1.name() );
     }
 

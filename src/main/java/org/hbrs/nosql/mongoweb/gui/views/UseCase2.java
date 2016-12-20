@@ -14,10 +14,10 @@ import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
 import org.hbrs.nosql.mongoweb.gui.components.TopPanel;
 
 import java.util.List;
+
 import org.hbrs.nosql.mongoweb.model.UseCase;
 
 /**
- *
  * @author Franz
  */
 public class UseCase2 extends VerticalLayout implements View
@@ -31,30 +31,34 @@ public class UseCase2 extends VerticalLayout implements View
     private void setUp()
     {
         this.addComponent( new TopPanel() );
-        Label title = new Label(UseCase.UC2.name());
-        this.addComponent(title);
+        
+        Label title = new Label( UseCase.UC2.name() );
+        this.addComponent( title );
+        
         //MongoDB Connector
         MongoDBConnector mongo = new MongoDBConnector();
         
-        VerticalLayout uc2= new VerticalLayout();
+        VerticalLayout uc2 = new VerticalLayout();
         
-        Button button = new Button("Professoren suchen");
+        Button button = new Button( "Professoren suchen" );
         
-        button.addClickListener( e -> {
-            uc2.removeAllComponents();
-            // load list with values
-            List uc1answer = mongo.getQuery2();
-            // query over list
-            for(int i = 0; i< uc1answer.size(); i++){
-                //create and post labels for list elements
-                uc2.addComponent(new Label( (String) uc1answer.get( i)));
-            }
-            addComponent(uc2);
-        });
+        button.addClickListener( e ->
+                                 {
+                                     uc2.removeAllComponents();
+                                     // load list with values
+                                     List uc1answer = mongo.getQuery2();
+                                     // query over list
+                                     for ( int i = 0; i < uc1answer.size(); i++ )
+                                     {
+                                         //create and post labels for list elements
+                                         uc2.addComponent( new Label( (String)uc1answer.get( i ) ) );
+                                     }
+                                     addComponent( uc2 );
+                                 } );
         
         
-        addComponents(button);
-        setMargin(true);
-        setSpacing(true);
+        addComponents( button );
+        setMargin( true );
+        setSpacing( true );
     }
 }
