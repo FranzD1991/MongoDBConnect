@@ -16,6 +16,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -74,5 +75,18 @@ public class MongoDBConnector {
         query = new BasicDBObject("Thema_der_Arbeit", pat);
         List answer = coll.distinct("1_Pruefer", query);
         return answer;
-    }        
+    }
+    public List getQuery2(){
+        BasicDBObject nequery=new BasicDBObject("$ne","");
+        
+        List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+        obj.add(new BasicDBObject("1_Pruefer",nequery));
+        obj.add(new BasicDBObject("2_Pruefer",nequery));
+        obj.add(new BasicDBObject("3_Pruefer",nequery));
+        
+        BasicDBObject orquery = new BasicDBObject("",obj);
+        
+        List answer = coll.distinct("1_Pruefer", orquery);
+        return answer;
+    }
 }

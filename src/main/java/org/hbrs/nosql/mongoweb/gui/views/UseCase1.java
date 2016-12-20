@@ -15,6 +15,7 @@ import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
 import org.hbrs.nosql.mongoweb.gui.components.TopPanel;
 
 import java.util.List;
+import org.hbrs.nosql.mongoweb.model.UseCase;
 
 /**
  *
@@ -31,36 +32,19 @@ public class UseCase1 extends VerticalLayout implements View
     private void setUp()
     {
         this.addComponent( new TopPanel() );
-        
+        Label title = new Label(UseCase.UC1.name());
+        this.addComponent(title);
+        //MongoDB Connector
         MongoDBConnector mongo = new MongoDBConnector();
-        //DBCursor cursor = mongo.getAllDBObjectsFromCollection();
-        /*
-        List answer = mongo.getQuery1("Konzeption");
-        String output="Anzahl an Prüfern: "+answer.size();
-        for(int i = 0; i< answer.size(); i++){
-            output=output + "|||" + answer.get(i);
-        }
-        while(cursor.hasNext()){
-            output = output +" ||| "+ cursor.next().toString();
-        }
-        Label dokumentenliste = new Label(output);
-        */
         
-        //Navigation erstellen
-        VerticalLayout navigation = new VerticalLayout();
-        Button uc1navi    = new Button();
-        uc1navi.addClickListener(e->{
-        
-        });
-        navigation.addComponents();
-        
-        VerticalLayout inhalt = new VerticalLayout();
-        
-        //Use Case 1
         VerticalLayout uc1      = new VerticalLayout();
+        
         TextField uc1input = new TextField();
+        
         uc1input.setCaption("Geben Sie ein Thema ein, welches Sie interessiert!");
+        
         Button button = new Button("Suche");
+        
         button.addClickListener( e -> {
             uc1.removeAllComponents();
             // load list with values
