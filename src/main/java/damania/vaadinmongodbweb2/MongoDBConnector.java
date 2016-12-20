@@ -16,6 +16,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class MongoDBConnector {
     MongoClient mongoClient ;
@@ -66,5 +68,11 @@ public class MongoDBConnector {
     public void updateDocument(DBObject query, DBObject update){
         coll.update(query, update, false, false);
     }
-            
+    public List getQuery1(String input){
+        Pattern pat = Pattern.compile(input, Pattern.CASE_INSENSITIVE);
+        BasicDBObject query;
+        query = new BasicDBObject("Thema_der_Arbeit", pat);
+        List answer = coll.distinct("1_Pruefer", query);
+        return answer;
+    }        
 }
