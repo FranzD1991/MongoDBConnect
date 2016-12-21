@@ -20,12 +20,18 @@ public class TopPanel extends HorizontalLayout
         
         this.addComponent( headLabel );
         this.setComponentAlignment( headLabel, Alignment.TOP_LEFT );
-    
+        
+        HorizontalLayout layout = new HorizontalLayout();
+        
         for ( UseCase uc : UseCase.values() )
         {
             Button bt = new Button( uc.getName() );
             bt.addClickListener( (Button.ClickListener)clickEvent -> UI.getCurrent().getNavigator().navigateTo( uc.name() ) );
-            this.addComponent( bt );
+            layout.addComponent( bt );
         }
+    
+        layout.setSpacing( true );
+        this.addComponent( layout );
+        setComponentAlignment( layout, Alignment.BOTTOM_CENTER );
     }
 }
