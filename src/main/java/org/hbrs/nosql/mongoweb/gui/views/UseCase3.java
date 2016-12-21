@@ -5,36 +5,22 @@
  */
 package org.hbrs.nosql.mongoweb.gui.views;
 
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
-import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
-import org.hbrs.nosql.mongoweb.gui.components.TopPanel;
 import org.hbrs.nosql.mongoweb.model.UseCase;
-
-import java.util.List;
 
 /**
  * @author Franz
  */
-public class UseCase3 extends VerticalLayout implements View
+public class UseCase3 extends AbstractUseCase
 {
     @Override
-    public void enter( ViewChangeListener.ViewChangeEvent viewChangeEvent )
+    protected void setUp()
     {
-        setUp();
+        //Add your Vaadin Coding here ;)
     }
     
-    private void setUp()
+    @Override
+    protected UseCase getUseCase()
     {
-        this.addComponent( new TopPanel() );
-        
-        Label title = new Label( UseCase.UC3.name() );
-        this.addComponent( title );
-        
-        setMargin( true );
-        setSpacing( true );
+        return ( UseCase.UC3 );
     }
 }

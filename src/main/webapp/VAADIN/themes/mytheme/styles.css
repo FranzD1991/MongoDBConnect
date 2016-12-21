@@ -12984,3 +12984,9 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.mytheme .myTitel {
+	text-shadow: 2px 2px 15px rgba(39, 37, 37, 0.6);
+	color: #080809;
+	font-size: 50px;
+}

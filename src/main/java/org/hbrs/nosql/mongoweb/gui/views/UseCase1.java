@@ -21,21 +21,11 @@ import org.hbrs.nosql.mongoweb.model.UseCase;
 /**
  * @author Franz
  */
-public class UseCase1 extends VerticalLayout implements View
+public class UseCase1 extends AbstractUseCase
 {
     @Override
-    public void enter( ViewChangeListener.ViewChangeEvent viewChangeEvent )
+    protected void setUp()
     {
-        setUp();
-    }
-    
-    private void setUp()
-    {
-        this.addComponent( new TopPanel() );
-        
-        Label title = new Label( UseCase.UC1.name() );
-        this.addComponent( title );
-        
         //MongoDB Connector
         MongoDBConnector mongo = new MongoDBConnector();
         
@@ -69,5 +59,11 @@ public class UseCase1 extends VerticalLayout implements View
         addComponents( uc1input, button );
         setMargin( true );
         setSpacing( true );
+    }
+    
+    @Override
+    protected UseCase getUseCase()
+    {
+        return ( UseCase.UC1 );
     }
 }

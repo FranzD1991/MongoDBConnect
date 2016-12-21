@@ -15,6 +15,8 @@ public class TopPanel extends HorizontalLayout
     
         Label headLabel = new Label( "<b> MongoWeb </b>", ContentMode.HTML );
         headLabel.setSizeUndefined();
+        headLabel.addStyleName( "myTitel" );
+        headLabel.setSizeUndefined();
         
         this.addComponent( headLabel );
         this.setComponentAlignment( headLabel, Alignment.TOP_LEFT );

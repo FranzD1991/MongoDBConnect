@@ -10,7 +10,7 @@ import org.hbrs.nosql.mongoweb.model.UseCase;
 /**
  * @author Franz
  */
-public class UseCase7 extends AbstractUseCase
+public class UseCase8 extends AbstractUseCase
 {
     @Override
     protected void setUp()
@@ -21,6 +21,6 @@ public class UseCase7 extends AbstractUseCase
     @Override
     protected UseCase getUseCase()
     {
-        return ( UseCase.UC7 );
+        return ( UseCase.UC8 );
     }
 }

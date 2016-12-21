@@ -14,6 +14,7 @@ public enum UseCase
     UC5 ( "Use Case 5", UseCase5.class ),
     UC6 ( "Use Case 6", UseCase6.class ),
     UC7 ( "Use Case 7", UseCase7.class ),
+    UC8 ( "Use Case 8: CRUD-Operationen", UseCase8.class ),
     ;
     
     private String name;
