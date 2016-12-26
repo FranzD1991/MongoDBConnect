@@ -29,7 +29,7 @@ public class UseCase3 extends AbstractUseCase
         
         TextField uc3input = new TextField();
         
-        uc3input.setCaption( "Geben Sie ein Thema ein, welches Sie interessiert!" );
+        uc3input.setCaption( "Geben Sie einen Professor ein und sehen Sie welche Themen dieser unterstützt hat!" );
         
         Button button = new Button( "Suche" );
         

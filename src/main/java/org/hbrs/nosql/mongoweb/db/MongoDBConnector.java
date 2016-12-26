@@ -32,71 +32,44 @@ public class MongoDBConnector
     {
         initDefaultConnect();
     }
-    
-    public void initDefaultConnect()
-    {
-        mongoClient = new MongoClient( "10.20.110.43", 27021 );
-        db = mongoClient.getDB( "abDB" );
-        coll = db.getCollection( "abDBsimpleCSV" );
-    }
-    
-    public void setnewServerConnection( String s, int i )
-    {
-        mongoClient = new MongoClient( s, i );
-    }
-    
-    public void setnewDBConnection( String s )
-    {
-        db = mongoClient.getDB( s );
-    }
-    
-    public void SetnewCollectionConnection( String s )
-    {
-        coll = db.getCollection( s );
-    }
-    
-    public String getConnectionInfo()
-    {
-        return mongoClient.getAddress().toString();
-    }
-    
-    public String getDBName()
-    {
-        return db.getName();
-    }
-    
-    public String getCollectionName()
-    {
-        return coll.getName();
-    }
-    
-    public long getDocsinCollection()
-    {
-        return coll.count();
-    }
-    
-    public DBCursor getDBObjectsFromCollection( DBObject query )
-    {
-        DBCursor curse = coll.find( query );
-        return curse;
-    }
-    
     public DBCursor getAllDBObjectsFromCollection()
     {
         DBCursor curse = coll.find();
         return curse;
     }
-    
-    public void insertNewDocumnet( DBObject dokument )
+    public String getConnectionInfo()
     {
-        coll.insert( dokument );
+        return mongoClient.getAddress().toString();
     }
-    
-    public void updateDocument( DBObject query, DBObject update )
+    public String getCollectionName()
     {
-        coll.update( query, update, false, false );
+        return coll.getName();
     }
-    
+    public String getDBName()
+    {
+        return db.getName();
+    }
+    public DBCursor getDBObjectsFromCollectionUsingFind( DBObject query )
+    {
+        DBCursor curse = coll.find( query );
+        return curse;
+    }
+    public List getDistinctQueryTextSearch(String input, String outputColumn, String distinctColumn){
+        Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
+        BasicDBObject query;
+        query = new BasicDBObject( distinctColumn, pat );
+        List answer = coll.distinct( outputColumn, query );
+        return answer;
+    }
+    public long getDocsinCollection()
+    {
+        return coll.count();
+    }
+    public List getListFromCollectionUsingDistinct( String output, DBObject query )
+    {
+        List curse = coll.distinct( output, query );
+        return curse;
+    }
     public List getQuery1( String input )
     {
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
@@ -141,21 +114,20 @@ public class MongoDBConnector
         BasicDBObject nequery = new BasicDBObject( "$ne", "" );
         BasicDBObject query = new BasicDBObject("Firma", nequery);
         List answer = coll.distinct("Firma",query);
-        //db.abDBsimpleCSV.distinct('Firma',{Firma: {$ne:""}})
         return answer;
     } 
     public AggregationOutput getQuery6(){
         List< BasicDBObject > obj = new ArrayList< BasicDBObject >();
         //Erstes Element der Queryliste
-        BasicDBObject sizeQuery = new BasicDBObject("$size","0");
+        BasicDBObject sizeQuery = new BasicDBObject("$size",0);
         BasicDBObject neQuery = new BasicDBObject("$not",sizeQuery);
         BasicDBObject matchQuery = new BasicDBObject("1_Pruefer",neQuery);
         obj.add( new BasicDBObject( "$match", matchQuery ) );
         //Zweites Element der Queryliste
-        obj.add( new BasicDBObject("$unwind","1_Pruefer"));
+        obj.add( new BasicDBObject("$unwind","$1_Pruefer"));
         //Drittes Element der Queryliste
         BasicDBObject sumQuery = new BasicDBObject("$sum",1);
-        DBObject auswahlQuery = new BasicDBObject("_id","1_Pruefer")
+        DBObject auswahlQuery = new BasicDBObject("_id","$1_Pruefer")
                 .append("Anzahl", sumQuery);
         obj.add( new BasicDBObject("$group",auswahlQuery));
         //Viertes Element der Queryliste
@@ -165,7 +137,7 @@ public class MongoDBConnector
         obj.add( new BasicDBObject("$match",anzahlQuery));
         //Fünftes Element der Queryliste
         BasicDBObject sortQuery = new BasicDBObject("Anzahl",-1);
-        obj.add( new BasicDBObject("$match",sortQuery));
+        obj.add( new BasicDBObject("$sort",sortQuery));
         //Sechstes Element der Queryliste
         obj.add( new BasicDBObject("$limit",200));
         AggregationOutput answer = coll.aggregate(obj);
@@ -178,4 +150,32 @@ public class MongoDBConnector
         List answer = coll.distinct( "Thema_der_Arbeit", query );
         return answer;
     }
+    public void initDefaultConnect()
+    {
+        mongoClient = new MongoClient( "10.20.110.43", 27021 );
+        db = mongoClient.getDB( "abDB" );
+        coll = db.getCollection( "abDBsimpleCSV" );
+    }
+    public void insertNewDocumnet( DBObject dokument )
+    {
+        coll.insert( dokument );
+    }
+    public void setnewServerConnection( String s, int i )
+    {
+        mongoClient = new MongoClient( s, i );
+    }
+    public void setnewDBConnection( String s )
+    {
+        db = mongoClient.getDB( s );
+    }
+    public void setnewCollectionConnection( String s )
+    {
+        coll = db.getCollection( s );
+    }
+    public void updateDocument( DBObject query, DBObject update )
+    {
+        coll.update( query, update, false, false );
+    }
+    
+    
 }
