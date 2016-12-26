@@ -5,6 +5,12 @@
  */
 package org.hbrs.nosql.mongoweb.gui.views;
 
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+import java.util.List;
+import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
 import org.hbrs.nosql.mongoweb.model.UseCase;
 
 /**
@@ -16,6 +22,34 @@ public class UseCase7 extends AbstractUseCase
     protected void setUp()
     {
         //Add your Vaadin Coding here ;)
+        //Add your Vaadin Coding here ;)
+        //MongoDB Connector
+        MongoDBConnector mongo = new MongoDBConnector();
+        
+        VerticalLayout uc7 = new VerticalLayout();
+        
+        TextField uc7input = new TextField();
+        
+        uc7input.setCaption( "Thema prüfen!" );
+        
+        Button button = new Button( "Suche" );
+        
+        button.addClickListener( e ->
+                                 {
+                                     uc7.removeAllComponents();
+                                     // load list with values
+                                     List uc7answer = mongo.getQuery7( uc7input.getValue() );
+                                     // query over list
+                                     for ( int i = 0; i < uc7answer.size(); i++ )
+                                     {
+                                         //create and post labels for list elements
+                                         uc7.addComponent( new Label( (String)uc7answer.get( i ) ) );
+                                     }
+                                     addComponent( uc7 );
+                                 } );
+        addComponents( uc7input, button );
+        setMargin( true );
+        setSpacing( true );
     }
     
     @Override

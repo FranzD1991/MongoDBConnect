@@ -16,6 +16,7 @@ public class UseCase8 extends AbstractUseCase
     protected void setUp()
     {
         //Add your Vaadin Coding here ;)
+        
     }
     
     @Override
