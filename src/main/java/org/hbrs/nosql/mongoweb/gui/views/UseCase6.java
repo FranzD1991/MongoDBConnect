@@ -10,7 +10,11 @@ import com.mongodb.DBObject;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
+
 import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
 import org.hbrs.nosql.mongoweb.model.UseCase;
 
@@ -33,12 +37,27 @@ public class UseCase6 extends AbstractUseCase
         button.addClickListener( e ->
                                  {
                                      uc6.removeAllComponents();
+            
+                                     LocalTime t1 = LocalTime.now();
+            
                                      // load list with values
                                      AggregationOutput uc6answer = mongo.getQuery6();
+            
+                                     LocalTime t2 = LocalTime.now();
+                                     Duration elapsed = Duration.between( t1, t2 );
+            
                                      // query over list
-                                     for (DBObject place : uc6answer.results()) {
-                                         if(place.get("_id").equals(""));else uc6.addComponent( new Label( place.get("_id")+": "+place.get("Anzahl")) );
+                                     for ( DBObject place : uc6answer.results() )
+                                     {
+                                         if ( !place.get( "_id" ).equals( "" ) )
+                                         {
+                                             uc6.addComponent(
+                                                     new Label( place.get( "_id" ) + ": " + place.get( "Anzahl" ) ) );
+                                         }
                                      }
+            
+                                     uc6.addComponent( new Label( "Time: " + elapsed ) );
+            
                                      addComponent( uc6 );
                                  } );
         

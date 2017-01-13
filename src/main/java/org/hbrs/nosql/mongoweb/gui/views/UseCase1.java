@@ -14,6 +14,10 @@ import com.vaadin.ui.VerticalLayout;
 import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
 import org.hbrs.nosql.mongoweb.gui.components.TopPanel;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.hbrs.nosql.mongoweb.model.UseCase;
@@ -40,21 +44,30 @@ public class UseCase1 extends AbstractUseCase
         button.addClickListener( e ->
                                  {
                                      uc1.removeAllComponents();
+            
+                                     LocalTime t1 = LocalTime.now();
+            
                                      // load list with values
                                      List uc1answer = mongo.getQuery1( uc1input.getValue() );
+            
+                                     LocalTime t2 = LocalTime.now();
+                                     Duration elapsed = Duration.between( t1, t2 );
+            
                                      // query over list
                                      for ( int i = 0; i < uc1answer.size(); i++ )
                                      {
                                          //create and post labels for list elements
                                          uc1.addComponent( new Label( (String)uc1answer.get( i ) ) );
                                      }
+    
+                                     uc1.addComponent( new Label( "Time: " + elapsed ) );
+                                     
                                      addComponent( uc1 );
             /*
             layout.addComponent(new Label("I got " + mongo.getDocsinCollection()
                     + " Docs in Store. here They are:"));
             */
                                  } );
-        
         
         addComponents( uc1input, button );
         setMargin( true );

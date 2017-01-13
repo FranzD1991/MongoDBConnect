@@ -27,7 +27,7 @@ public abstract class AbstractUseCase extends VerticalLayout implements View
         
         Label title = new Label( getUseCase().getName() );
         title.setSizeUndefined();
-        title.addStyleName( "useCases" );
+        //title.addStyleName( "useCases" );
         this.addComponent( title );
         
         setMargin( true );

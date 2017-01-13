@@ -9,7 +9,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
+
 import org.hbrs.nosql.mongoweb.db.MongoDBConnector;
 import org.hbrs.nosql.mongoweb.model.UseCase;
 
@@ -36,14 +40,24 @@ public class UseCase3 extends AbstractUseCase
         button.addClickListener( e ->
                                  {
                                      uc3.removeAllComponents();
+            
+                                     LocalTime t1 = LocalTime.now();
+            
                                      // load list with values
                                      List uc3answer = mongo.getQuery3( uc3input.getValue() );
+            
+                                     LocalTime t2 = LocalTime.now();
+                                     Duration elapsed = Duration.between( t1, t2 );
+            
                                      // query over list
                                      for ( int i = 0; i < uc3answer.size(); i++ )
                                      {
                                          //create and post labels for list elements
                                          uc3.addComponent( new Label( (String)uc3answer.get( i ) ) );
                                      }
+            
+                                     uc3.addComponent( new Label( "Time: " + elapsed ) );
+            
                                      addComponent( uc3 );
                                  } );
         addComponents( uc3input, button );

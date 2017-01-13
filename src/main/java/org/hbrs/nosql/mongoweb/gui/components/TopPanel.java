@@ -11,12 +11,12 @@ public class TopPanel extends HorizontalLayout
 {
     public TopPanel()
     {
-        this.setSizeFull();
+        this.setSizeUndefined();
+        this.setSpacing( true );
     
         Label headLabel = new Label( "<b> MongoWeb </b>", ContentMode.HTML );
-        headLabel.setSizeUndefined();
         headLabel.addStyleName( "myTitel" );
-        headLabel.setSizeUndefined();
+        //headLabel.setSizeUndefined();
         
         this.addComponent( headLabel );
         this.setComponentAlignment( headLabel, Alignment.TOP_LEFT );
@@ -31,6 +31,7 @@ public class TopPanel extends HorizontalLayout
         }
     
         layout.setSpacing( true );
+        //layout.setWidth( "100%" );
         this.addComponent( layout );
         setComponentAlignment( layout, Alignment.BOTTOM_CENTER );
     }
