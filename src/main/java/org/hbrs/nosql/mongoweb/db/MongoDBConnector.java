@@ -172,26 +172,23 @@ public class MongoDBConnector
     public AggregationOutput getQuery8( String input )
     {
         List< BasicDBObject > obj = new ArrayList< BasicDBObject >();
-        //first
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
         BasicDBObject query;
         query = new BasicDBObject( "Thema_der_Arbeit", pat );
-        obj.add( query );
-        //next
-        BasicDBObject sizeQuery = new BasicDBObject( "$size", 0 );
-        BasicDBObject neQuery = new BasicDBObject( "$not", sizeQuery );
-        BasicDBObject matchQuery = new BasicDBObject( "1_Pruefer", neQuery );
+        BasicDBObject mQuery = new BasicDBObject("$match",query);
+        obj.add(mQuery);
+        BasicDBObject sizeQuery = new BasicDBObject("$size",0);
+        BasicDBObject neQuery = new BasicDBObject("$not",sizeQuery);
+        BasicDBObject matchQuery = new BasicDBObject("1_Pruefer",neQuery);
         obj.add( new BasicDBObject( "$match", matchQuery ) );
-        //next
-        obj.add( new BasicDBObject( "$unwind", "$1_Pruefer" ) );
-        //next
-        BasicDBObject sumQuery = new BasicDBObject( "$sum", 1 );
-        DBObject auswahlQuery = new BasicDBObject( "_id", "$1_Pruefer" ).append( "Anzahl", sumQuery );
-        obj.add( new BasicDBObject( "$group", auswahlQuery ) );
-        //next
-        BasicDBObject sortQuery = new BasicDBObject( "Anzahl", -1 );
-        obj.add( new BasicDBObject( "$sort", sortQuery ) );
-        AggregationOutput answer = coll.aggregate( obj );
+        obj.add( new BasicDBObject("$unwind","$1_Pruefer"));
+        BasicDBObject sumQuery = new BasicDBObject("$sum",1);
+        DBObject auswahlQuery = new BasicDBObject("_id","$1_Pruefer")
+                .append("Anzahl", sumQuery);
+        obj.add( new BasicDBObject("$group",auswahlQuery));
+        BasicDBObject sortQuery = new BasicDBObject("Anzahl",-1);
+        obj.add( new BasicDBObject("$sort",sortQuery));
+        AggregationOutput answer = coll.aggregate(obj);
         return answer;
     }
     
