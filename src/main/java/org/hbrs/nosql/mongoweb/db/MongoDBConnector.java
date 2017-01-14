@@ -61,12 +61,12 @@ public class MongoDBConnector
         return curse;
     }
     
-    public List getDistinctQueryTextSearch( String input, String outputColumn, String distinctColumn )
+    public List< DBObject > getDistinctQueryTextSearch( String input, String outputColumn, String distinctColumn )
     {
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
-        BasicDBObject query;
+        DBObject query;
         query = new BasicDBObject( distinctColumn, pat );
-        List answer = coll.distinct( outputColumn, query );
+        List< DBObject > answer = coll.distinct( outputColumn, query );
         return answer;
     }
     
@@ -81,78 +81,78 @@ public class MongoDBConnector
         return curse;
     }
     
-    public List getQuery1( String input )
+    public List< DBObject > getQuery1( String input )
     {
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
-        BasicDBObject query;
+        DBObject query;
         query = new BasicDBObject( "Thema_der_Arbeit", pat );
-        List answer = coll.distinct( "1_Pruefer", query );
+        List< DBObject > answer = coll.distinct( "1_Pruefer", query );
         return answer;
     }
     
-    public List getQuery2()
+    public List< DBObject > getQuery2()
     {
-        BasicDBObject nequery = new BasicDBObject( "$ne", "" );
+        DBObject nequery = new BasicDBObject( "$ne", "" );
         
-        List< BasicDBObject > obj = new ArrayList< BasicDBObject >();
+        List< DBObject > obj = new ArrayList<>();
         obj.add( new BasicDBObject( "1_Pruefer", nequery ) );
         obj.add( new BasicDBObject( "2_Pruefer", nequery ) );
         obj.add( new BasicDBObject( "3_Pruefer", nequery ) );
         
-        BasicDBObject orquery = new BasicDBObject( "$or", obj );
+        DBObject orquery = new BasicDBObject( "$or", obj );
         
-        List answer = coll.distinct( "1_Pruefer", orquery );
+        List< DBObject > answer = coll.distinct( "1_Pruefer", orquery );
         return answer;
     }
     
-    public List getQuery3( String input )
+    public List< DBObject > getQuery3( String input )
     {
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
-        BasicDBObject query;
+        DBObject query;
         query = new BasicDBObject( "1_Pruefer", pat );
-        List answer = coll.distinct( "Thema_der_Arbeit", query );
+        List< DBObject > answer = coll.distinct( "Thema_der_Arbeit", query );
         return answer;
     }
     
     public int getQuery4( String input )
     {
-        List< BasicDBObject > obj = new ArrayList< BasicDBObject >();
+        List< DBObject > obj = new ArrayList<>();
         obj.add( new BasicDBObject( "Semester", input ) );
         obj.add( new BasicDBObject( "Zeugnis", 1 ) );
-        BasicDBObject andQuery = new BasicDBObject( "$and", obj );
+        DBObject andQuery = new BasicDBObject( "$and", obj );
         int i = coll.find( andQuery ).count();
         return i;
     }
     
-    public List getQuery5()
+    public List< DBObject > getQuery5()
     {
         BasicDBObject nequery = new BasicDBObject( "$ne", "" );
         BasicDBObject query = new BasicDBObject( "Firma", nequery );
-        List answer = coll.distinct( "Firma", query );
+        List< DBObject > answer = coll.distinct( "Firma", query );
         return answer;
     }
     
     public AggregationOutput getQuery6()
     {
-        List< BasicDBObject > obj = new ArrayList< BasicDBObject >();
+        List< DBObject > obj = new ArrayList<>();
         //Erstes Element der Queryliste
-        BasicDBObject sizeQuery = new BasicDBObject( "$size", 0 );
-        BasicDBObject neQuery = new BasicDBObject( "$not", sizeQuery );
-        BasicDBObject matchQuery = new BasicDBObject( "1_Pruefer", neQuery );
+        Object sizeQuery = new BasicDBObject( "$size", 0 );
+        DBObject neQuery = new BasicDBObject( "$not", sizeQuery );
+        DBObject matchQuery = new BasicDBObject( "1_Pruefer", neQuery );
         obj.add( new BasicDBObject( "$match", matchQuery ) );
         //Zweites Element der Queryliste
         obj.add( new BasicDBObject( "$unwind", "$1_Pruefer" ) );
         //Drittes Element der Queryliste
-        BasicDBObject sumQuery = new BasicDBObject( "$sum", 1 );
+        DBObject sumQuery = new BasicDBObject( "$sum", 1 );
         DBObject auswahlQuery = new BasicDBObject( "_id", "$1_Pruefer" ).append( "Anzahl", sumQuery );
         obj.add( new BasicDBObject( "$group", auswahlQuery ) );
         //Viertes Element der Queryliste
-        BasicDBObject anzahlQuery, greaterQuery;
+        DBObject anzahlQuery, greaterQuery;
         greaterQuery = new BasicDBObject( "$gte", 2 );
         anzahlQuery = new BasicDBObject( "Anzahl", greaterQuery );
         obj.add( new BasicDBObject( "$match", anzahlQuery ) );
         //Fünftes Element der Queryliste
-        BasicDBObject sortQuery = new BasicDBObject( "Anzahl", -1 );
+        DBObject sortQuery = new BasicDBObject( "Anzahl", -1 );
         obj.add( new BasicDBObject( "$sort", sortQuery ) );
         //Sechstes Element der Queryliste
         obj.add( new BasicDBObject( "$limit", 200 ) );
@@ -160,36 +160,32 @@ public class MongoDBConnector
         return answer;
     }
     
-    public List getQuery7( String input )
+    public List< DBObject > getQuery7( String input )
     {
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
-        BasicDBObject query;
+        DBObject query;
         query = new BasicDBObject( "Thema_der_Arbeit", pat );
-        List answer = coll.distinct( "Thema_der_Arbeit", query );
+        List< DBObject > answer = coll.distinct( "Thema_der_Arbeit", query );
         return answer;
     }
     
     public AggregationOutput getQuery8( String input )
     {
-        List< BasicDBObject > obj = new ArrayList< BasicDBObject >();
-        //first
+        List< DBObject > obj = new ArrayList<>();
         Pattern pat = Pattern.compile( input, Pattern.CASE_INSENSITIVE );
-        BasicDBObject query;
+        DBObject query;
         query = new BasicDBObject( "Thema_der_Arbeit", pat );
-        obj.add( query );
-        //next
-        BasicDBObject sizeQuery = new BasicDBObject( "$size", 0 );
-        BasicDBObject neQuery = new BasicDBObject( "$not", sizeQuery );
-        BasicDBObject matchQuery = new BasicDBObject( "1_Pruefer", neQuery );
+        BasicDBObject mQuery = new BasicDBObject( "$match", query );
+        obj.add( mQuery );
+        DBObject sizeQuery = new BasicDBObject( "$size", 0 );
+        DBObject neQuery = new BasicDBObject( "$not", sizeQuery );
+        DBObject matchQuery = new BasicDBObject( "1_Pruefer", neQuery );
         obj.add( new BasicDBObject( "$match", matchQuery ) );
-        //next
         obj.add( new BasicDBObject( "$unwind", "$1_Pruefer" ) );
-        //next
-        BasicDBObject sumQuery = new BasicDBObject( "$sum", 1 );
+        DBObject sumQuery = new BasicDBObject( "$sum", 1 );
         DBObject auswahlQuery = new BasicDBObject( "_id", "$1_Pruefer" ).append( "Anzahl", sumQuery );
         obj.add( new BasicDBObject( "$group", auswahlQuery ) );
-        //next
-        BasicDBObject sortQuery = new BasicDBObject( "Anzahl", -1 );
+        DBObject sortQuery = new BasicDBObject( "Anzahl", -1 );
         obj.add( new BasicDBObject( "$sort", sortQuery ) );
         AggregationOutput answer = coll.aggregate( obj );
         return answer;
